@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DIGIT Corp — Internal Portal</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<header>
+  <div class="logo">DIGIT CORP</div>
+  <div class="status-bar">
+    <span>SYS: <span>ONLINE</span></span>
+    <span>SEC: <span>LEVEL 3</span></span>
+    <span>USER: <span>GUEST</span></span>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- Step 1 hint — visible on page -->
+  <div class="terminal fade-up d1">
+    <div class="terminal-bar">
+      <div class="dot r"></div><div class="dot y"></div><div class="dot g"></div>
+      <span class="terminal-title">welcome.sh — bash</span>
+    </div>
+    <div class="terminal-body">
+      <div class="prompt">whoami</div>
+      <div class="output">guest@digit-corp</div>
+      <br/>
+      <div class="prompt">cat welcome.txt</div>
+      <div class="output">
+        Welcome to DIGIT Corp Internal Portal.<br/>
+        This system is for <span class="highlight">authorized personnel only.</span><br/><br/>
+        <span class="clue">The admin forgot to hide something...</span><br/>
+        <span style="color:#333;">Perhaps start by reading what the server tells crawlers.</span>
+      </div>
+      <br/>
+      <div class="prompt cursor"></div>
+    </div>
+  </div>
+
+  <div class="hint-box fade-up d2">
+    <strong>[ CHALLENGE BRIEFING ]</strong><br/><br/>
+    You are a security intern at DIGIT Corp.<br/>
+    Your job: Find the hidden admin panel and capture the flag.<br/><br/>
+    🕵️ Explore the site carefully. Check <em>everything</em>.
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════════════
+     CLUE HIDDEN IN SOURCE CODE — Step 2
+     Maybe robots can help
+     ══════════════════════════════════════════ -->
+
+<footer>DIGIT CORP © 2026 — INTERNAL USE ONLY — UNAUTHORIZED ACCESS PROHIBITED</footer>
+
+</body>
+</html>

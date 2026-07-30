@@ -1,0 +1,103 @@
+/* Admin Dashboard Layout - mirrors intern layout but with distinct color */
+@import url('intern.css');
+
+/* Admin specific overrides */
+.sidebar {
+    background-color: var(--bg-card);
+}
+
+.sidebar-logo {
+    color: #eab308;
+}
+
+.nav-item:hover, .nav-item.active {
+    background-color: rgba(234, 179, 8, 0.1);
+    color: #eab308;
+    border-left-color: #eab308;
+}
+
+.profile-pic {
+    border-color: #eab308;
+}
+
+.admin-header {
+    background: linear-gradient(135deg, rgba(234,179,8,0.2) 0%, transparent 100%);
+    border-color: var(--border-color);
+}
+
+/* Data Tables */
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-size: 0.9rem;
+}
+
+.admin-table th {
+    background-color: var(--border-color);
+    color: var(--text-muted);
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.admin-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-primary);
+}
+
+.admin-table tr:hover {
+    background-color: var(--accent-glow);
+}
+
+.btn-sm {
+    padding: 5px 10px;
+    font-size: 0.8rem;
+    border-radius: 4px;
+}
+
+.btn-edit { background-color: var(--accent-highlight); color: white; border: none; cursor: pointer; }
+.btn-delete { background-color: var(--danger); color: white; border: none; cursor: pointer; }
+.btn-view { background-color: #10b981; color: white; border: none; cursor: pointer; }
+
+/* ============================
+   LIGHT MODE - ADMIN
+   ============================ */
+
+[data-theme="light"] .sidebar {
+    background-color: #fefce8;
+    border-right: 1px solid #fde68a;
+    box-shadow: 2px 0 15px rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="light"] .sidebar-logo {
+    color: #b45309;
+}
+
+[data-theme="light"] .nav-item:hover,
+[data-theme="light"] .nav-item.active {
+    background-color: rgba(234, 179, 8, 0.1);
+    color: #b45309;
+    border-left-color: #eab308;
+}
+
+[data-theme="light"] .admin-header {
+    background: linear-gradient(135deg, rgba(234,179,8,0.08) 0%, transparent 100%);
+    border-color: rgba(234, 179, 8, 0.2);
+}
+
+[data-theme="light"] .admin-table th {
+    background-color: #f8fafc;
+    color: #475569;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+[data-theme="light"] .admin-table td {
+    border-bottom: 1px solid #f1f5f9;
+    color: #0f172a;
+}
+
+[data-theme="light"] .admin-table tr:hover {
+    background-color: #f8fafc;
+}

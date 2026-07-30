@@ -1,0 +1,1 @@
+# Access control is handled directly inside the PHP files to avoid 403 redirect loops to DirectAdmin

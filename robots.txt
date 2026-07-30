@@ -1,0 +1,20 @@
+User-agent: *
+
+# Disallow sensitive system folders and administrative panels
+Disallow: /hq_control/
+Disallow: /officer/
+Disallow: /config/
+Disallow: /sessions/
+Disallow: /uploads/
+Disallow: /data/
+Disallow: /includes/
+Disallow: /scratch/
+Disallow: /Bitcoin tracer/
+Disallow: /CDR Analyzer/
+Disallow: /CTF/
+Disallow: /OSINT_PHP/
+Disallow: /SOPs/
+Disallow: /emailheader/
+
+# Link to live sitemap
+Sitemap: https://digitalinvestigation.in/sitemap.xml

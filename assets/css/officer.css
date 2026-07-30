@@ -1,0 +1,130 @@
+/* Officer Dashboard Layout - Structured, Data-dense, Formal */
+@import url('intern.css');
+
+.sidebar {
+    background-color: var(--bg-card);
+    border-right: 2px solid var(--border-color); 
+}
+
+.sidebar-logo {
+    color: var(--danger);
+}
+
+.nav-item:hover, .nav-item.active {
+    background-color: rgba(239, 68, 68, 0.1);
+    color: var(--danger);
+    border-left-color: var(--danger);
+}
+
+.profile-pic {
+    border-color: var(--text-muted);
+    border-radius: 4px; 
+}
+
+.topbar {
+    border-bottom: 2px solid var(--border-color);
+}
+
+.glass-panel {
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    background: var(--glass-bg);
+}
+
+.glass-panel:hover {
+    box-shadow: 0 0 10px rgba(239, 68, 68, 0.1);
+    border-color: rgba(239, 68, 68, 0.3);
+}
+
+/* Officer Stats Row */
+.stats-grid {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+/* Dense Data Table */
+.dataTable {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+}
+.dataTable th {
+    background: #1e293b;
+    padding: 10px;
+    text-align: left;
+    color: #cbd5e1;
+    border: 1px solid #334155;
+}
+.dataTable td {
+    padding: 10px;
+    border: 1px solid #334155;
+    color: #f8fafc;
+}
+.dataTable tr:nth-child(even) {
+    background: rgba(255,255,255,0.02);
+}
+.dataTable tr:hover {
+    background: #334155;
+}
+
+.badge {
+    padding: 3px 8px;
+    border-radius: 3px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+.badge-danger { background: #ef4444; color: white; }
+.badge-warning { background: #f59e0b; color: white; }
+.badge-success { background: #10b981; color: white; }
+.badge-info { background: #3b82f6; color: white; }
+
+/* ============================
+   LIGHT MODE - OFFICER
+   ============================ */
+
+[data-theme="light"] .sidebar {
+    background-color: #f8fafc;
+    border-right: 2px solid #bfdbfe;
+    box-shadow: 2px 0 15px rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="light"] .nav-item:hover,
+[data-theme="light"] .nav-item.active {
+    background-color: rgba(239, 68, 68, 0.08);
+    color: #dc2626;
+    border-left-color: #ef4444;
+}
+
+[data-theme="light"] .topbar {
+    border-bottom: 2px solid rgba(37, 99, 235, 0.3);
+}
+
+[data-theme="light"] .glass-panel {
+    border-radius: 4px;
+    border: 1px solid #e2e8f0;
+    background: rgba(255, 255, 255, 0.9);
+}
+
+[data-theme="light"] .glass-panel:hover {
+    box-shadow: 0 4px 15px rgba(239, 68, 68, 0.08);
+    border-color: rgba(239, 68, 68, 0.2);
+}
+
+[data-theme="light"] .dataTable th {
+    background: #f1f5f9;
+    color: #475569;
+    border: 1px solid #e2e8f0;
+}
+
+[data-theme="light"] .dataTable td {
+    border: 1px solid #e2e8f0;
+    color: #0f172a;
+}
+
+[data-theme="light"] .dataTable tr:nth-child(even) {
+    background: #f8fafc;
+}
+
+[data-theme="light"] .dataTable tr:hover {
+    background: #e0f2fe;
+}

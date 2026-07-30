@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forensic Image Exif Analyzer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/exif-js"></script>
+    <style>
+        :root { --accent: #00f3ff; --bg: #000814; --panel: rgba(0, 15, 30, 0.9); --border: rgba(0, 243, 255, 0.2); }
+        body { background: var(--bg); color: var(--accent); font-family: 'Rajdhani', sans-serif; padding: 20px; }
+        .container { max-width: 1000px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 30px; }
+        .header h1 { letter-spacing: 5px; text-transform: uppercase; margin: 0; text-shadow: 0 0 15px var(--accent); }
+        
+        .drop-zone { border: 2px dashed var(--border); padding: 50px; text-align: center; cursor: pointer; transition: 0.3s; background: rgba(0, 243, 255, 0.02); margin-bottom: 30px; }
+        .drop-zone:hover { border-color: var(--accent); background: rgba(0, 243, 255, 0.05); }
+        .drop-zone i { font-size: 4rem; margin-bottom: 20px; }
+
+        .analysis-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .preview-pane { background: var(--panel); border: 1px solid var(--border); padding: 20px; text-align: center; }
+        .preview-pane img { max-width: 100%; max-height: 400px; border: 1px solid var(--border); }
+        
+        .data-pane { background: var(--panel); border: 1px solid var(--border); padding: 20px; overflow-y: auto; max-height: 500px; }
+        .data-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid rgba(0, 243, 255, 0.05); font-family: 'Share Tech Mono', monospace; font-size: 0.9rem; }
+        .data-label { color: #0066ff; font-weight: bold; }
+        .data-value { color: #888; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header"><h1>FORENSIC EXIF ANALYZER</h1><p style="color:#0066ff; letter-spacing:2px;">METADATA EXTRACTION ENGINE</p></div>
+        
+        <div class="drop-zone" onclick="document.getElementById('fileInput').click()">
+            <i class="fa-solid fa-camera-retro"></i>
+            <h3>INJECT IMAGE FOR ANALYSIS</h3>
+            <p>(Drag & Drop Image or Click to Browse)</p>
+            <input type="file" id="fileInput" accept="image/*" style="display: none;">
+        </div>
+
+        <div class="analysis-grid" id="analysisArea" style="display: none;">
+            <div class="preview-pane">
+                <img id="imgPreview" src="" alt="Preview">
+                <p id="fileName" style="margin-top: 15px; font-family: 'Share Tech Mono';"></p>
+            </div>
+            <div class="data-pane">
+                <h3 style="margin-top: 0; border-bottom: 1px solid var(--accent); padding-bottom: 10px;">METADATA LOGS</h3>
+                <div id="exifData"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const fileInput = document.getElementById('fileInput');
+        fileInput.onchange = (e) => analyzeImage(e.target.files[0]);
+
+        function analyzeImage(file) {
+            if(!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('imgPreview').src = e.target.result;
+                document.getElementById('fileName').innerText = '> SOURCE: ' + file.name;
+                document.getElementById('analysisArea').style.display = 'grid';
+                
+                EXIF.getData(file, function() {
+                    const allData = EXIF.getAllTags(this);
+                    const dataPane = document.getElementById('exifData');
+                    dataPane.innerHTML = '';
+                    
+                    if(Object.keys(allData).length === 0) {
+                        dataPane.innerHTML = '<p style="color:#ef4444;">No EXIF data found in this image.</p>';
+                        return;
+                    }
+
+                    for(let tag in allData) {
+                        if(tag === 'MakerNote') continue; // Often too large/binary
+                        const row = document.createElement('div');
+                        row.className = 'data-row';
+                        row.innerHTML = `<span class="data-label">${tag}</span><span class="data-value">${allData[tag]}</span>`;
+                        dataPane.appendChild(row);
+                    }
+                });
+            };
+            reader.readAsDataURL(file);
+        }
+    </script>
+</body>
+</html>

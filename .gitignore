@@ -1,0 +1,18 @@
+# Secrets — NEVER commit this file
+config/secrets.php
+config/db.php
+
+# Uploaded user files
+uploads/
+
+# XAMPP / Server specific
+.DS_Store
+*.log
+*.bak
+
+# Python venv (CDR Analyzer)
+CDR Analyzer/myvenv/
+
+# Scratch / dev scripts
+scratch/
+

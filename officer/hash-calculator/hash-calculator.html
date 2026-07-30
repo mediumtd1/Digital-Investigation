@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forensic Hash Lab | Secure Verification Suite</title>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <style>
+        :root {
+            --hacker-cyan: #00f3ff;
+            --hacker-blue: #0066ff;
+            --hacker-bg: #000814;
+            --hacker-panel: rgba(0, 15, 30, 0.95);
+            --hacker-border: rgba(0, 243, 255, 0.3);
+        }
+
+        * { box-sizing: border-box; }
+        body {
+            background: var(--hacker-bg);
+            color: var(--hacker-cyan);
+            font-family: 'Rajdhani', sans-serif;
+            margin: 0; padding: 20px; min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container { max-width: 100%; margin: 0 auto; }
+        header { text-align: center; margin-bottom: 30px; }
+        header h1 { font-size: 2.5rem; letter-spacing: 5px; margin: 0; text-shadow: 0 0 20px var(--hacker-cyan); }
+        .tagline { color: var(--hacker-blue); font-weight: 700; letter-spacing: 5px; font-size: 0.7rem; text-transform: uppercase; }
+
+        .nav-tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 30px; flex-wrap: wrap; }
+        .tab-btn {
+            background: rgba(0, 30, 60, 0.5); border: 1px solid var(--hacker-border);
+            color: var(--hacker-cyan); padding: 10px 20px; font-family: 'Rajdhani', sans-serif;
+            font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; cursor: pointer; transition: 0.3s;
+            clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%);
+        }
+        .tab-btn.active { background: var(--hacker-cyan); color: #000; box-shadow: 0 0 15px var(--hacker-cyan); }
+
+        .panel { background: var(--hacker-panel); border: 1px solid var(--hacker-border); padding: 30px; border-radius: 8px; display: none; margin-bottom: 20px; }
+        .panel.active { display: block; }
+
+        .drop-zone {
+            border: 2px dashed var(--hacker-border); padding: 50px; text-align: center; cursor: pointer; transition: 0.3s;
+            background: rgba(0, 243, 255, 0.02); border-radius: 8px;
+        }
+        .drop-zone:hover { border-color: var(--hacker-cyan); background: rgba(0, 243, 255, 0.05); }
+        .drop-zone i { font-size: 3.5rem; margin-bottom: 15px; opacity: 0.7; }
+
+        textarea { width: 100%; height: 150px; background: #000; border: 1px solid var(--hacker-border); color: var(--hacker-cyan); padding: 20px; font-family: 'Share Tech Mono', monospace; outline: none; resize: none; margin-bottom: 15px; font-size: 1rem; }
+
+        .results-container { margin-top: 40px; display: none; }
+        .results-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid var(--hacker-border); padding-bottom: 15px; }
+        
+        .report-btn {
+            background: rgba(16, 185, 129, 0.1); border: 1px solid #10b981; color: #10b981;
+            padding: 10px 25px; border-radius: 4px; font-family: 'Rajdhani'; font-weight: bold;
+            cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 10px;
+        }
+        .report-btn:hover { background: #10b981; color: #000; box-shadow: 0 0 15px #10b981; }
+
+        .result-card { border: 1px solid var(--hacker-border); margin-bottom: 20px; padding: 20px; background: rgba(0, 0, 0, 0.6); border-left: 5px solid var(--hacker-cyan); border-radius: 4px; animation: slideIn 0.3s ease; }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .result-header { font-weight: bold; margin-bottom: 15px; display: flex; justify-content: space-between; font-family: 'Share Tech Mono', monospace; color: #fff; font-size: 1.1rem; }
+        .hash-row { display: grid; grid-template-columns: 100px 1fr; gap: 20px; font-family: 'Share Tech Mono', monospace; font-size: 0.95rem; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .hash-label { color: var(--hacker-blue); font-weight: bold; }
+        .hash-value { color: #fff; word-break: break-all; letter-spacing: 0.5px; }
+
+        @media (max-width: 768px) {
+            header h1 { font-size: 2rem; }
+            .tab-btn { padding: 8px 12px; font-size: 0.75rem; }
+            .hash-row { grid-template-columns: 1fr; gap: 5px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>FORENSIC HASH LAB</h1>
+            <div class="tagline">DATA INTEGRITY VERIFICATION SUITE</div>
+        </header>
+
+        <div class="nav-tabs">
+            <button class="tab-btn active" onclick="showPanel('file')"><i class="fa-solid fa-file"></i> FILES</button>
+            <button class="tab-btn" onclick="showPanel('folder')"><i class="fa-solid fa-folder-open"></i> FOLDER</button>
+            <button class="tab-btn" onclick="showPanel('drive')"><i class="fa-solid fa-hard-drive"></i> DRIVE</button>
+            <button class="tab-btn" onclick="showPanel('text')"><i class="fa-solid fa-font"></i> TEXT</button>
+        </div>
+
+        <div id="panel-file" class="panel active">
+            <div class="drop-zone" onclick="document.getElementById('fileInput').click()">
+                <i class="fa-solid fa-file-shield"></i>
+                <h3>AUTHENTICATE FILES</h3>
+                <p>Drag files or click to browse</p>
+                <input type="file" id="fileInput" multiple style="display: none;">
+            </div>
+        </div>
+
+        <div id="panel-folder" class="panel">
+            <div class="drop-zone" onclick="document.getElementById('folderInput').click()">
+                <i class="fa-solid fa-folder-tree"></i>
+                <h3>RECURSIVE FOLDER SCAN</h3>
+                <p>Select a folder to hash all contents</p>
+                <input type="file" id="folderInput" webkitdirectory directory style="display: none;">
+            </div>
+        </div>
+
+        <div id="panel-drive" class="panel">
+            <div class="drop-zone" onclick="document.getElementById('driveInput').click()">
+                <i class="fa-solid fa-microchip"></i>
+                <h3>LOGICAL DRIVE HASHING</h3>
+                <p>Select drive root for verification</p>
+                <input type="file" id="driveInput" webkitdirectory directory style="display: none;">
+            </div>
+        </div>
+
+        <div id="panel-text" class="panel">
+            <textarea id="textInput" placeholder="> ENTER DATA STRING FOR REAL-TIME FORENSIC HASHING..."></textarea>
+            <button class="report-btn" onclick="generateTextReport()" style="margin-left: auto;">EXPORT TEXT HASH</button>
+        </div>
+
+        <div class="results-container" id="resContainer">
+            <div class="results-header">
+                <h3 style="margin: 0; letter-spacing: 2px; color: var(--hacker-cyan);"><i class="fa-solid fa-list-check"></i> ANALYSIS LOGS</h3>
+                <div style="display: flex; gap: 15px;">
+                    <button class="report-btn" onclick="downloadFullReport()"><i class="fa-solid fa-file-export"></i> DOWNLOAD FORMAL REPORT</button>
+                    <button onclick="clearAll()" style="background:rgba(239, 68, 68, 0.1); border:1px solid #ef4444; color:#ef4444; cursor:pointer; padding:8px 20px; font-size:0.8rem; border-radius:4px; font-weight: bold; font-family: 'Rajdhani';">TERMINATE SESSION</button>
+                </div>
+            </div>
+            <div id="resList"></div>
+        </div>
+    </div>
+
+    <script>
+        let hashHistory = [];
+
+        function showPanel(type) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+            document.getElementById('panel-' + type).classList.add('active');
+        }
+
+        const resList = document.getElementById('resList');
+        const resContainer = document.getElementById('resContainer');
+
+        document.getElementById('fileInput').onchange = (e) => processFiles(e.target.files);
+        document.getElementById('folderInput').onchange = (e) => processFiles(e.target.files);
+        document.getElementById('driveInput').onchange = (e) => processFiles(e.target.files);
+
+        async function processFiles(files) {
+            if(files.length === 0) return;
+            resContainer.style.display = 'block';
+            
+            for (let file of files) {
+                const id = 'h-' + Math.random().toString(36).substr(2, 9);
+                addCard(file.webkitRelativePath || file.name, id, (file.size/1024).toFixed(2) + ' KB');
+                
+                try {
+                    const arrayBuffer = await file.arrayBuffer();
+                    const wa = CryptoJS.lib.WordArray.create(arrayBuffer);
+                    const md5 = CryptoJS.MD5(wa).toString();
+                    const sha1 = CryptoJS.SHA1(wa).toString();
+                    const sha256 = CryptoJS.SHA256(wa).toString();
+                    
+                    updateHashes(id, md5, sha1, sha256);
+                    hashHistory.push({ name: file.webkitRelativePath || file.name, size: (file.size/1024).toFixed(2) + ' KB', md5, sha1, sha256 });
+                } catch (err) {
+                    document.getElementById(`md5-${id}`).innerText = "ERROR: " + err.message;
+                    console.error("Hashing failed:", err);
+                }
+            }
+        }
+
+        function addCard(name, id, size) {
+            const div = document.createElement('div');
+            div.className = 'result-card';
+            div.id = id;
+            div.innerHTML = `
+                <div class="result-header"><span>> ${name}</span><span style="color:#10b981;">[ ${size} ]</span></div>
+                <div class="hash-row"><span class="hash-label">MD5</span><span class="hash-value" id="md5-${id}">COMPUTING...</span></div>
+                <div class="hash-row"><span class="hash-label">SHA-1</span><span class="hash-value" id="sha1-${id}">COMPUTING...</span></div>
+                <div class="hash-row"><span class="hash-label">SHA-256</span><span class="hash-value" id="sha256-${id}">COMPUTING...</span></div>
+            `;
+            resList.prepend(div);
+        }
+
+        function updateHashes(id, md5, sha1, sha256) {
+            const md5El = document.getElementById(`md5-${id}`);
+            const sha1El = document.getElementById(`sha1-${id}`);
+            const sha256El = document.getElementById(`sha256-${id}`);
+            
+            if(md5El) md5El.innerText = md5;
+            if(sha1El) sha1El.innerText = sha1;
+            if(sha256El) sha256El.innerText = sha256;
+        }
+
+        function downloadFullReport() {
+            if(hashHistory.length === 0) return;
+            let report = "==================================================\n";
+            report += "          FORENSIC HASH VERIFICATION REPORT\n";
+            report += "==================================================\n";
+            report += "TIMESTAMP:     " + new Date().toLocaleString() + "\n";
+            report += "TOTAL ITEMS:   " + hashHistory.length + "\n\n";
+            
+            hashHistory.forEach((h, i) => {
+                report += `[ITEM ${i+1}]: ${h.name}\n`;
+                report += `SIZE:       ${h.size}\n`;
+                report += `MD5:        ${h.md5}\n`;
+                report += `SHA1:       ${h.sha1}\n`;
+                report += `SHA256:     ${h.sha256}\n`;
+                report += `--------------------------------------------------\n`;
+            });
+            
+            const blob = new Blob([report], {type: 'text/plain'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Forensic_Report_${Date.now()}.txt`;
+            a.click();
+        }
+
+        function generateTextReport() {
+            const val = document.getElementById('textInput').value;
+            if(!val) return;
+            const wa = CryptoJS.enc.Utf8.parse(val);
+            const md5 = CryptoJS.MD5(wa).toString();
+            const sha1 = CryptoJS.SHA1(wa).toString();
+            const sha256 = CryptoJS.SHA256(wa).toString();
+            
+            let report = "TEXT FORENSIC HASH REPORT\n";
+            report += "DATA: " + val + "\n\n";
+            report += "MD5:    " + md5 + "\n";
+            report += "SHA1:   " + sha1 + "\n";
+            report += "SHA256: " + sha256 + "\n";
+            
+            const blob = new Blob([report], {type: 'text/plain'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a'); a.href = url; a.download = "Text_Hash.txt"; a.click();
+        }
+
+        function clearAll() { resList.innerHTML = ''; hashHistory = []; }
+    </script>
+</body>
+</html>

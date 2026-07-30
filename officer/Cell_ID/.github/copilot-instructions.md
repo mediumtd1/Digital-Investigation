@@ -1,0 +1,4 @@
+- [ ] Create a new PHP + MySQL project skeleton with basic CRUD functionality.
+- [ ] Provide a README with setup instructions.
+- [ ] Include a database schema file for MySQL.
+- [ ] Ensure the project is ready to run under XAMPP or equivalent.

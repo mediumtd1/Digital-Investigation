@@ -1,0 +1,3 @@
+# Block all access to sessions folder
+Order deny,allow
+Deny from all

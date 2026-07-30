@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DIGIT Corp — Admin Panel</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<header>
+  <div class="logo">DIGIT CORP</div>
+  <div class="status-bar">
+    <span>USER: <span>ADMIN</span></span>
+    <span>CLEARANCE: <span>LEVEL 5</span></span>
+    <span>STATUS: <span style="color:#00ff41;">AUTHENTICATED</span></span>
+  </div>
+</header>
+
+<div class="container" id="blockedView" style="display:none;">
+  <div class="terminal fade-up d1">
+    <div class="terminal-bar">
+      <div class="dot r"></div><div class="dot y"></div><div class="dot g"></div>
+      <span class="terminal-title">admin.sh — restricted</span>
+    </div>
+    <div class="terminal-body">
+      <div class="prompt">access admin.html</div>
+      <div class="output">
+        <span class="warn">⛔ UNAUTHORIZED — You must authenticate first.</span><br/><br/>
+        <span style="color:#555;">→ Go to <a href="login.html" style="color:#00ff41;">login.html</a></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container" id="flagView" style="display:none;">
+
+  <div class="flag-wrap">
+
+    <div class="progress fade-up d1">
+      <div class="step-dot done">1</div>
+      <div class="step-dot done">2</div>
+      <div class="step-dot done">3</div>
+      <div class="step-dot done">4</div>
+      <div class="step-dot done">5</div>
+      <div class="step-dot done">6</div>
+    </div>
+
+    <div class="congrats fade-up d2">ACCESS GRANTED</div>
+    <p style="color:#555; font-size:0.75rem; margin-top:10px; letter-spacing:2px;" class="fade-up d2">
+      WELCOME, ADMIN — ALL SYSTEMS OPERATIONAL
+    </p>
+
+    <div class="terminal fade-up d3" style="margin-top:36px; text-align:left;">
+      <div class="terminal-bar">
+        <div class="dot r"></div><div class="dot y"></div><div class="dot g"></div>
+        <span class="terminal-title">flag_reader.sh</span>
+      </div>
+      <div class="terminal-body">
+        <div class="prompt">cat /secret/flag.txt</div>
+        <div class="output" id="flagTyped"></div>
+        <br/>
+        <div class="prompt cursor"></div>
+      </div>
+    </div>
+
+    <div class="flag-box fade-up d4">
+      <div class="flag-label">🚩 CAPTURED FLAG</div>
+      <div class="flag-text" id="flagDisplay"></div>
+    </div>
+
+    <div class="hint-box fade-up d4" style="max-width:560px; margin:0 auto; text-align:left;">
+      <strong>[ SKILLS USED ]</strong><br/><br/>
+      ✅ Step 1 — Read the homepage hint<br/>
+      ✅ Step 2 — Inspected page source code<br/>
+      ✅ Step 3 — Discovered <code>robots.txt</code><br/>
+      ✅ Step 4 — Found the admin login page<br/>
+      ✅ Step 5 — Found hidden EMP_ID in source<br/>
+      ✅ Step 6 — Authenticated &amp; captured flag 🎉
+    </div>
+
+  </div>
+
+</div>
+
+<footer>DIGIT CORP © 2026 — INTERNAL USE ONLY</footer>
+
+<script>
+  // Check if arrived from successful login OR direct with ?auth=true
+  const params = new URLSearchParams(window.location.search);
+  const authed = params.get('auth') === 'true';
+
+  if (authed) {
+    document.getElementById('flagView').style.display = 'block';
+    
+    // De-obfuscate the flag from Base64
+    const base64Flag = 'ZmxhZ3tpbnRlcm5fZGV0ZWN0aXZlX21hc3Rlcn0=';
+    const text = atob(base64Flag);
+    
+    const el = document.getElementById('flagTyped');
+    let i = 0;
+    setTimeout(() => {
+      const t = setInterval(() => {
+        el.textContent += text[i++];
+        if (i >= text.length) {
+          clearInterval(t);
+          document.getElementById('flagDisplay').textContent = text;
+        }
+      }, 60);
+    }, 1400);
+  } else {
+    document.getElementById('blockedView').style.display = 'block';
+  }
+</script>
+
+</body>
+</html>

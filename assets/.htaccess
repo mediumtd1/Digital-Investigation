@@ -1,0 +1,5 @@
+# Block PHP execution in assets folder (images/data only)
+<FilesMatch "\.php$">
+    Order deny,allow
+    Deny from all
+</FilesMatch>

@@ -1,0 +1,212 @@
+:root {
+    --primary-color: #1a2a6c;
+    --secondary-color: #b21f1f;
+    --accent-color: #fdbb2d;
+    --bg-dark: #0f172a;
+    --card-bg: rgba(30, 41, 59, 0.7);
+    --text-main: #f8fafc;
+    --text-dim: #94a3b8;
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --police-blue: #2563eb;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Outfit', sans-serif;
+}
+
+body {
+    background: radial-gradient(circle at top right, #1e293b, #0f172a);
+    color: var(--text-main);
+    min-height: 100vh;
+}
+
+/* Top Navigation Box Menu */
+.top-nav {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.nav-box {
+    background: var(--card-bg);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    padding: 1.5rem 2.5rem;
+    border-radius: 16px;
+    text-decoration: none;
+    color: var(--text-main);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.3s ease;
+    flex: 1;
+    max-width: 200px;
+}
+
+.nav-box svg {
+    color: var(--police-blue);
+}
+
+.nav-box:hover, .nav-box.active {
+    background: var(--police-blue);
+    border-color: var(--police-blue);
+    transform: translateY(-5px);
+}
+
+.nav-box:hover svg, .nav-box.active svg {
+    color: white;
+}
+
+/* Main Content */
+.main-content {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+/* Form Styling */
+.form-container {
+    background: var(--card-bg);
+    backdrop-filter: blur(20px);
+    padding: 3rem;
+    border-radius: 24px;
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+.step-indicator {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-bottom: 3rem;
+}
+
+.step-dot {
+    height: 4px;
+    background: var(--glass-border);
+    border-radius: 2px;
+}
+
+.step-dot.active {
+    background: var(--police-blue);
+    box-shadow: 0 0 10px var(--police-blue);
+}
+
+.form-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    text-align: center;
+}
+
+.form-subtitle {
+    color: var(--text-dim);
+    margin-bottom: 2.5rem;
+    text-align: center;
+    font-size: 0.95rem;
+}
+
+.form-group {
+    margin-bottom: 2rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.8rem;
+    color: var(--text-main);
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 1rem 1.2rem;
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    color: white;
+    outline: none;
+    font-size: 1rem;
+    transition: all 0.3s;
+}
+
+input:focus, select:focus, textarea:focus {
+    border-color: var(--police-blue);
+    background: rgba(15, 23, 42, 0.8);
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15);
+}
+
+.btn-group {
+    display: flex;
+    gap: 1rem;
+    margin-top: 3rem;
+}
+
+.btn {
+    flex: 1;
+    padding: 1.2rem;
+    border-radius: 12px;
+    border: none;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.3s;
+}
+
+.btn-primary {
+    background: var(--police-blue);
+    color: white;
+}
+
+.btn-secondary {
+    background: var(--glass-border);
+    color: var(--text-main);
+}
+
+.btn:hover {
+    filter: brightness(1.2);
+    transform: translateY(-2px);
+}
+
+.hidden { display: none; }
+
+/* Category Grid */
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 15px;
+    margin-bottom: 2rem;
+}
+
+.category-card {
+    background: rgba(15, 23, 42, 0.4);
+    border: 1px solid var(--glass-border);
+    padding: 1.5rem 1rem;
+    border-radius: 16px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.category-card:hover, .category-card.active {
+    border-color: var(--police-blue);
+    background: rgba(37, 99, 235, 0.1);
+}
+
+.category-card.active {
+    box-shadow: 0 0 15px rgba(37, 99, 235, 0.3);
+}
+
+.category-card i {
+    display: block;
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: var(--police-blue);
+}

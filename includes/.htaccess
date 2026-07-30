@@ -1,0 +1,3 @@
+# Block all direct browser access to includes files
+Order deny,allow
+Deny from all

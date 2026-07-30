@@ -1,0 +1,69 @@
+# ============================================================
+# CYBER PORTAL — ROOT SECURITY RULES
+# ============================================================
+
+# Disable directory listing (no one can browse folder contents)
+Options -Indexes
+
+# Hide PHP version from headers
+Header always unset X-Powered-By
+
+# Security Headers
+Header always set X-Frame-Options "SAMEORIGIN"
+Header always set X-Content-Type-Options "nosniff"
+Header always set X-XSS-Protection "1; mode=block"
+Header always set Referrer-Policy "strict-origin-when-cross-origin"
+Header always set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+
+# Enable GZIP compression for faster transfers
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/json application/x-javascript
+</IfModule>
+
+# Browser Caching for Static Assets (7 days for CSS/JS/images)
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType text/css                  "access plus 7 days"
+    ExpiresByType application/javascript    "access plus 7 days"
+    ExpiresByType text/javascript           "access plus 7 days"
+    ExpiresByType image/png                 "access plus 30 days"
+    ExpiresByType image/jpg                 "access plus 30 days"
+    ExpiresByType image/jpeg                "access plus 30 days"
+    ExpiresByType image/gif                 "access plus 30 days"
+    ExpiresByType image/svg+xml            "access plus 30 days"
+    ExpiresByType image/x-icon             "access plus 30 days"
+    ExpiresByType application/pdf           "access plus 7 days"
+    ExpiresByType font/woff2               "access plus 30 days"
+</IfModule>
+
+# Block access to hidden files (.htaccess, .env, .git, etc.)
+<FilesMatch "^\.">
+    Order deny,allow
+    Deny from all
+</FilesMatch>
+
+# Block access to .sql files (database dumps)
+<FilesMatch "\.(sql|log|bak|env|txt|md|json|lock|sh|bat)$">
+    Order deny,allow
+    Deny from all
+</FilesMatch>
+
+# Allow cookies.txt, robots.txt explicitly if needed
+<Files "robots.txt">
+    Order allow,deny
+    Allow from all
+</Files>
+
+# Block access to scratch directory
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^scratch/ - [F,L]
+    RewriteRule ^data/ - [F,L]
+
+    # Route PHP requests and directory requests under the secured folders to auth_check.php
+    RewriteCond %{REQUEST_URI} \.php$ [OR]
+    RewriteCond %{REQUEST_URI} /$ [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^(officer/(?:police_station|cyber_notice_portal)(?:/.*)?)$ officer/auth_check.php?path=$1 [QSA,L]
+</IfModule>
