@@ -1,4 +1,7 @@
 # Secrets — NEVER commit this file
+*.env
+.env
+**/.env
 config/secrets.php
 config/db.php
 
@@ -12,7 +15,8 @@ uploads/
 
 # Python venv (CDR Analyzer)
 CDR Analyzer/myvenv/
+venv/
+**/venv/
 
 # Scratch / dev scripts
 scratch/
-
