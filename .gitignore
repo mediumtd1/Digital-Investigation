@@ -1,22 +1,30 @@
-# Secrets — NEVER commit this file
-*.env
-.env
-**/.env
+# Secrets — NEVER commit these files
 config/secrets.php
-config/db.php
+.env
+*.env
+**/.env
+OSINT_PHP/.env
 
-# Uploaded user files
+# Dynamic database files & PHP session files
+*.db
+sessions/*
+!sessions/.htaccess
+
+# User Uploads & Media (Root and Subdirectories)
 uploads/
+**/uploads/
 
-# XAMPP / Server specific
+# Dev / Scratch / Logs / OS junk
+scratch/
 .DS_Store
+**/.DS_Store
 *.log
 *.bak
 
-# Python venv (CDR Analyzer)
-CDR Analyzer/myvenv/
+# Python Virtual Environments
 venv/
 **/venv/
-
-# Scratch / dev scripts
-scratch/
+.venv/
+**/.venv/
+myvenv/
+**/myvenv/
